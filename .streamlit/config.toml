@@ -1,0 +1,6 @@
+[theme]
+primaryColor = "#6BC4B8"
+backgroundColor = "#1a1f2e"          # сіро-мʼятний
+secondaryBackgroundColor = "#0f141a"
+textColor = "#e8f4fd"
+font = "sans serif"
