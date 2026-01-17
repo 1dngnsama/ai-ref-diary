@@ -14,7 +14,11 @@ def init_session_state():
         st.session_state.nastrii = -2
     if not 'impact' in st.session_state:
         st.session_state.impact = {}
-    
+    if not 'sleep_hours' in st.session_state:
+        st.session_state.sleep_hours = None
+    if not 'day' in st.session_state:
+        st.session_state.day = None
+        
 init_session_state()
 
 st.header('Як ви зараз?', anchor=False)
@@ -44,7 +48,13 @@ with c3:
     st.session_state.impact['weather'] = st.checkbox("Погода")
     st.session_state.impact['other'] = st.checkbox("Інше")
     
+st.header('Скільки ви спали?')
+st.session_state.sleep_hours = st.segmented_control(options=['До 2 годин', '2-4 годин', '4-6 годин', '6-8 годин', '8-10 годин','10-12 годин', 'Понад 12 годин'], label='none', label_visibility='collapsed')
 
 
+st.header('Опишіть ваш день')
+day = st.text_area(label='none', label_visibility='collapsed', height=200)
 
+if st.button('Зберегти', key='save_button', type='secondary', use_container_width=True):
+    st.session_state.day = day
 st.write(st.session_state)
