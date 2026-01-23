@@ -1,61 +1,60 @@
-[32m2026-01-16 18:57:10.669[0m | [1mINFO    [0m | [36m__main__[0m:[36m__init__[0m:[36m33[0m - [1mGoogle Gemini client initialized[0m
-[32m2026-01-16 18:57:38.779[0m | [1mINFO    [0m | [36m__main__[0m:[36m__init__[0m:[36m33[0m - [1mGoogle Gemini client initialized[0m
-[32m2026-01-16 18:58:06.080[0m | [1mINFO    [0m | [36m__main__[0m:[36m__init__[0m:[36m33[0m - [1mGoogle Gemini client initialized[0m
-[32m2026-01-16 19:00:21.679[0m | [1mINFO    [0m | [36m__main__[0m:[36m__init__[0m:[36m33[0m - [1mGoogle Gemini client initialized[0m
-[32m2026-01-16 19:01:17.765[0m | [1mINFO    [0m | [36m__main__[0m:[36m__init__[0m:[36m33[0m - [1mGoogle Gemini client initialized[0m
-[32m2026-01-16 19:01:55.300[0m | [1mINFO    [0m | [36m__main__[0m:[36m__init__[0m:[36m34[0m - [1mGoogle Gemini client initialized[0m
-[32m2026-01-16 19:02:03.149[0m | [1mINFO    [0m | [36m__main__[0m:[36mget_response[0m:[36m39[0m - [1mLLM REQUEST | id=gemini_1768582923149 | provider=google | model=models/gemini-flash-latest | system_prompt=You are a helpful assistant. | user_prompt=хто ти воїн?[0m
-[32m2026-01-16 19:02:03.150[0m | [31m[1mERROR   [0m | [36m__main__[0m:[36mget_response[0m:[36m68[0m - [31m[1mLLM ERROR | id=gemini_1768582923149 | error='Models' object has no attribute 'aio'[0m
-[33m[1mTraceback (most recent call last):[0m
+[32m2026-01-23 02:09:02.068[0m | [1mINFO    [0m | [36mapp[0m:[36msave_entry[0m:[36m62[0m - [1m
+        Дані збережено:
+        nastrii: 2
+        work: True
+        health: False
+        study: False
+        money: True
+        partner: True
+        family: False
+        friends: False
+        society: False
+        date: False
+        events: True
+        weather: False
+        other: False
+        sleep_hours: 6-8 годин
+        day: Сьогодні я отримав зп, пригостив сім'ю вечерею, подарував дівчині квіти і домовився про зустріч із друзями
+        datetime: 2026-01-23 02:09:02.050072
 
-  File "[32mC:\Users\andrii\Desktop\ai-ref-diary\[0m[32m[1mapp.py[0m", line [33m82[0m, in [35m<module>[0m
-    [1masyncio[0m[35m[1m.[0m[1mrun[0m[1m([0m[1mmain[0m[1m([0m[1m)[0m[1m)[0m
-    [36m│       │   └ [0m[36m[1m<function main at 0x0000025AE36639C0>[0m
-    [36m│       └ [0m[36m[1m<function run at 0x0000025ADDBDCFE0>[0m
-    [36m└ [0m[36m[1m<module 'asyncio' from 'C:\\Users\\andrii\\AppData\\Local\\Programs\\Python\\Python313\\Lib\\asyncio\\__init__.py'>[0m
+        [0m
+[32m2026-01-23 02:38:40.475[0m | [1mINFO    [0m | [36mapp[0m:[36msave_entry[0m:[36m64[0m - [1m
+        Дані збережено:
+        nastrii: -3
+        work: False
+        health: True
+        study: False
+        money: False
+        partner: True
+        family: False
+        friends: False
+        society: False
+        date: False
+        events: True
+        weather: False
+        other: False
+        sleep_hours: 6-8 годин
+        note: 234234
+        datetime: 2026-01-23 02:38:40.449347
 
-  File "C:\Users\andrii\AppData\Local\Programs\Python\Python313\Lib\asyncio\runners.py", line 195, in run
-    return runner.run(main)
-           │      │   └ <coroutine object main at 0x0000025AE35C8D40>
-           │      └ <function Runner.run at 0x0000025ADDC98FE0>
-           └ <asyncio.runners.Runner object at 0x0000025AE3671550>
-  File "C:\Users\andrii\AppData\Local\Programs\Python\Python313\Lib\asyncio\runners.py", line 118, in run
-    return self._loop.run_until_complete(task)
-           │    │     │                  └ <Task pending name='Task-1' coro=<main() running at C:\Users\andrii\Desktop\ai-ref-diary\app.py:79> cb=[_run_until_complete_c...
-           │    │     └ <function BaseEventLoop.run_until_complete at 0x0000025ADDC96A20>
-           │    └ <ProactorEventLoop running=True closed=False debug=False>
-           └ <asyncio.runners.Runner object at 0x0000025AE3671550>
-  File "C:\Users\andrii\AppData\Local\Programs\Python\Python313\Lib\asyncio\base_events.py", line 712, in run_until_complete
-    self.run_forever()
-    │    └ <function BaseEventLoop.run_forever at 0x0000025ADDC96980>
-    └ <ProactorEventLoop running=True closed=False debug=False>
-  File "C:\Users\andrii\AppData\Local\Programs\Python\Python313\Lib\asyncio\base_events.py", line 683, in run_forever
-    self._run_once()
-    │    └ <function BaseEventLoop._run_once at 0x0000025ADDC987C0>
-    └ <ProactorEventLoop running=True closed=False debug=False>
-  File "C:\Users\andrii\AppData\Local\Programs\Python\Python313\Lib\asyncio\base_events.py", line 2050, in _run_once
-    handle._run()
-    │      └ <function Handle._run at 0x0000025ADDBDDEE0>
-    └ <Handle <_asyncio.TaskStepMethWrapper object at 0x0000025AE2CA8460>()>
-  File "C:\Users\andrii\AppData\Local\Programs\Python\Python313\Lib\asyncio\events.py", line 89, in _run
-    self._context.run(self._callback, *self._args)
-    │    │            │    │           │    └ <member '_args' of 'Handle' objects>
-    │    │            │    │           └ <Handle <_asyncio.TaskStepMethWrapper object at 0x0000025AE2CA8460>()>
-    │    │            │    └ <member '_callback' of 'Handle' objects>
-    │    │            └ <Handle <_asyncio.TaskStepMethWrapper object at 0x0000025AE2CA8460>()>
-    │    └ <member '_context' of 'Handle' objects>
-    └ <Handle <_asyncio.TaskStepMethWrapper object at 0x0000025AE2CA8460>()>
+        [0m
+[32m2026-01-23 02:39:16.616[0m | [1mINFO    [0m | [36mapp[0m:[36msave_entry[0m:[36m64[0m - [1m
+        Дані збережено:
+        nastrii: -3
+        work: False
+        health: True
+        study: False
+        money: False
+        partner: True
+        family: False
+        friends: False
+        society: False
+        date: False
+        events: True
+        weather: False
+        other: False
+        sleep_hours: 6-8 годин
+        note: 234234
+        datetime: 2026-01-23 02:39:16.610066
 
-  File "[32mC:\Users\andrii\Desktop\ai-ref-diary\[0m[32m[1mapp.py[0m", line [33m79[0m, in [35mmain[0m
-    [1mresponse[0m [35m[1m=[0m [35m[1mawait[0m [1mllm_service[0m[35m[1m.[0m[1mget_response[0m[1m([0m[1mprompt[0m[1m)[0m
-    [36m                 │           │            └ [0m[36m[1m'хто ти воїн?'[0m
-    [36m                 │           └ [0m[36m[1m<function LlmService.get_response at 0x0000025AE35C58A0>[0m
-    [36m                 └ [0m[36m[1m<__main__.LlmService object at 0x0000025AE35CC6E0>[0m
-
-> File "[32mC:\Users\andrii\Desktop\ai-ref-diary\[0m[32m[1mapp.py[0m", line [33m50[0m, in [35mget_response[0m
-    [1mresponse[0m [35m[1m=[0m [35m[1mawait[0m [1mself[0m[35m[1m.[0m[1mclient[0m[35m[1m.[0m[1mmodels[0m[35m[1m.[0m[1maio[0m[35m[1m.[0m[1mgenerate_content[0m[1m([0m
-    [36m                 │    │      └ [0m[36m[1m<property object at 0x0000025AE35171F0>[0m
-    [36m                 │    └ [0m[36m[1m<google.genai.client.Client object at 0x0000025AE35CC830>[0m
-    [36m                 └ [0m[36m[1m<__main__.LlmService object at 0x0000025AE35CC6E0>[0m
-
-[31m[1mAttributeError[0m:[1m 'Models' object has no attribute 'aio'[0m
+        [0m

@@ -1,72 +1,108 @@
-from google import genai
-from dotenv import load_dotenv
-import os
+from fastapi import FastAPI
+from pydantic import BaseModel
+from typing import Dict, Optional
+import sqlite3
 from logger_config import logger
-from asyncio import Semaphore
-import asyncio
-import time
-
-load_dotenv()
-
-semaphore = Semaphore(10)
 
 
-class LlmService:
-    def __init__(
-        self,
-        system_prompt: str,
-        provider: str = "google",
-        model: str = "models/gemini-flash-latest",
-        temperature: float = 1.0,
-    ):
-        self.provider = provider
-        self.model = model
-        self.temperature = temperature
-        self.system_prompt = system_prompt
+conn = sqlite3.connect('diary.db')
+conn.row_factory = sqlite3.Row
+cursor = conn.cursor()
 
-        if self.provider == "google":
-            api_key = os.getenv("GOOGLE_API_KEY")
-            if not api_key:
-                logger.error("GOOGLE_API_KEY is not set")
-                raise ValueError("Missing GOOGLE_API_KEY")
 
-            self.client = genai.Client(api_key=api_key)
-            logger.info("Google Gemini client initialized")
+cursor.execute(
+    '''
+CREATE TABLE IF NOT EXISTS diary (
+    id INTEGER PRIMARY KEY AUTOINCREMENT,
+    datetime TEXT,
+    nastrii INTEGER,
+    work BOOLEAN,
+    health BOOLEAN,
+    study BOOLEAN,
+    money BOOLEAN,
+    partner BOOLEAN,
+    family BOOLEAN,
+    friends BOOLEAN,
+    society BOOLEAN,
+    date BOOLEAN,
+    events BOOLEAN,
+    weather BOOLEAN,
+    other BOOLEAN,
+    sleep_hours TEXT,
+    note TEXT
+)
+    '''
+)
 
-    async def get_response(self, user_prompt: str) -> str:
-        request_id = f"gemini_{int(time.time() * 1000)}"
+app = FastAPI()
 
-        logger.info(
-            "LLM REQUEST | id={} | provider={} | model={} | system_prompt={} | user_prompt={}",
-            request_id,
-            self.provider,
-            self.model,
-            self.system_prompt,
-            user_prompt,
+class DiaryEntry(BaseModel):
+    nastrii: int
+    work: bool
+    health: bool
+    study: bool
+    money: bool
+    partner: bool
+    family: bool
+    friends: bool
+    society: bool
+    date: bool
+    events: bool
+    weather: bool
+    other: bool
+    sleep_hours: Optional[str] = None
+    note: Optional[str] = None
+    datetime: Optional[str] = None
+
+
+@app.get("/")
+async def root():
+    return {"status": "ok"}
+
+@app.post("/save")
+async def save_entry(payload: DiaryEntry):
+    logger.info(
+        f'''
+        Дані збережено:
+        nastrii: {payload.nastrii}
+        work: {payload.work}
+        health: {payload.health}
+        study: {payload.study}
+        money: {payload.money}
+        partner: {payload.partner}
+        family: {payload.family}
+        friends: {payload.friends}
+        society: {payload.society}
+        date: {payload.date}
+        events: {payload.events}
+        weather: {payload.weather}
+        other: {payload.other}
+        sleep_hours: {payload.sleep_hours}
+        note: {payload.note}
+        datetime: {payload.datetime}
+
+        '''
+    )
+    cursor.execute(
+        '''
+        INSERT INTO diary (
+            nastrii, work, health, study, money, partner, family, friends,
+            society, date, events, weather, other, sleep_hours, note, datetime
+        ) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)
+        ''',
+        (
+            payload.nastrii, payload.work, payload.health, payload.study,
+            payload.money, payload.partner, payload.family, payload.friends,
+            payload.society, payload.date, payload.events, payload.weather,
+            payload.other, payload.sleep_hours, payload.note, payload.datetime
         )
+    )
+    conn.commit()
+    return {"status": "saved"}
 
-        async with semaphore:
-            try:
-                response = await self.client.models.aio.generate_content(
-                    model=self.model,
-                    system=self.system_prompt,
-                    prompt=user_prompt,
-                    temperature=self.temperature,
-                )
-
-                answer = response.text
-
-                logger.info(
-                    "LLM RESPONSE | id={} | answer={}",
-                    request_id,
-                    answer,
-                )
-
-                return answer
-
-            except Exception as e:
-                logger.exception(
-                    "LLM ERROR | id={} | error={}",
-                    request_id,
-                    str(e),
-                )
+@app.get('/db')
+async def fetch_data():
+    cursor.execute('SELECT * FROM diary')
+    rows = cursor.fetchall()
+    data = [dict(row) for row in rows]
+    return data

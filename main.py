@@ -1,6 +1,34 @@
 import streamlit as st
 import uuid
 from helpers import MAP_NASTRII
+import json
+import requests
+from datetime import datetime
+
+base_url = 'http://127.0.0.1:8000'
+
+
+def build_payload():
+    payload = {
+        "datetime" : str(datetime.now()),
+        "nastrii": st.session_state.nastrii,
+        "work": st.session_state.impact['work'],
+        "health": st.session_state.impact['health'],
+        "study": st.session_state.impact['study'],
+        "money": st.session_state.impact['money'],
+        "partner": st.session_state.impact['partner'],
+        "family": st.session_state.impact['family'],
+        "friends": st.session_state.impact['friends'],
+        "society": st.session_state.impact['society'],
+        "date" : st.session_state.impact['date'],
+        "events" : st.session_state.impact['events'],
+        "weather" : st.session_state.impact['weather'],
+        "other" : st.session_state.impact['other'],
+        "sleep_hours": st.session_state.sleep_hours,
+        "note": st.session_state.note
+    }
+    return payload
+
 
 
 st.set_page_config(
@@ -16,8 +44,8 @@ def init_session_state():
         st.session_state.impact = {}
     if not 'sleep_hours' in st.session_state:
         st.session_state.sleep_hours = None
-    if not 'day' in st.session_state:
-        st.session_state.day = None
+    if not 'note' in st.session_state:
+        st.session_state.note = None
         
 init_session_state()
 
@@ -53,8 +81,16 @@ st.session_state.sleep_hours = st.segmented_control(options=['До 2 годин'
 
 
 st.header('Опишіть ваш день')
-day = st.text_area(label='none', label_visibility='collapsed', height=200)
+note = st.text_area(label='none', label_visibility='collapsed', height=200)
 
 if st.button('Зберегти', key='save_button', type='secondary', use_container_width=True):
-    st.session_state.day = day
-st.write(st.session_state)
+    st.session_state.note = note
+    payload = build_payload()
+    response = requests.post(f"{base_url}/save", json=payload)
+    if response.status_code == 200:
+        st.success("Дані успішно збережено!")
+        st.json(response.json())
+    else:
+        st.error("Сталася помилка під час збереження.")
+        st.text(f"Status Code: {response.status_code}")
+        st.text(f"Response: {response.text}")
